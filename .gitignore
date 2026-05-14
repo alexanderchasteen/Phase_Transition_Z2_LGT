@@ -32,6 +32,16 @@ MANIFEST
 *.manifest
 *.spec
 
+*.csv
+Thermalized*
+Beta_*
+*.png
+venv_Z2/
+job*
+
+
+
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
