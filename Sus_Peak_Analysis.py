@@ -37,7 +37,8 @@ print('optimal paramters: slope,intercept', fitA,fitB)
 print("Standard errors of parameters:", perr)
 y_fit=linear(inverse_volume,fitA,fitB)
 
-chi_squared = np.sum(((Critical_Beta - y_fit) / Critical_Beta_SD)**2)
+DOF =len(Critical_Beta)-2
+chi_squared = np.sum(((Critical_Beta - y_fit) / Critical_Beta_SD)**2)/DOF
 
 R2 = r2_score(Critical_Beta, linear(inverse_volume, fitA, fitB))
 R2 = round(R2, 4)
@@ -59,7 +60,7 @@ fitA_coef = fitA / 10**fitA_exp                # coefficient
 
 fit_label = (
     rf'Fit: $\beta_c = {fitA_coef:.3f} \times 10^{{{fitA_exp}}} (1/V) + {fitB:.6f}$' '\n'
-    rf'$R^2 = {R2:.3f},\ \chi^2 = {chi_squared:.2f}$'
+    rf'$R^2 = {R2:.3f},\ \chi^2_{{\mathrm{{red}}}} = {chi_squared:.2f}$'
 )
 
 plt.plot(
@@ -95,7 +96,7 @@ y_fit=linear(inverse_volume,fitA,fitB)
 print(y_fit)
 
 
-chi_squared = np.sum(((FWHM - y_fit) / FWHM_SD)**2)
+chi_squared = np.sum(((FWHM - y_fit) / FWHM_SD)**2)/DOF
 
 R2 = r2_score(FWHM, linear(inverse_volume, fitA, fitB))
 R2 = round(R2, 4)
@@ -117,7 +118,7 @@ plt.plot(
     linear(inverse_volume, fitA, fitB),
     linestyle='-',
     label=(
-        rf'$R^2={R2}$, $\chi^2={chi_squared:.2f}$'
+        rf'$R^2={R2}$, $\chi^2_{{\mathrm{{red}}}}={chi_squared:.2f}$'
     )
 )
 
@@ -141,7 +142,7 @@ y_fit=linear(volume,fitA,fitB)
 print(y_fit)
 
 
-chi_squared = np.sum(((Peak - y_fit) / Peak_SD)**2)
+chi_squared = np.sum(((Peak - y_fit) / Peak_SD)**2)/DOF
 
 R2=r2_score(Peak,linear(volume,fitA,fitB))
 R2=round(R2,4)
@@ -163,7 +164,7 @@ plt.plot(
     linear(volume, fitA, fitB),
     linestyle='-',
     label=(
-        rf'$R^2={R2}$, $\chi^2={chi_squared:.2f}$'
+        rf'$R^2={R2}$, $\chi^2_{{\mathrm{{red}}}}={chi_squared:.2f}$'
     )
 )
 
@@ -274,7 +275,7 @@ plt.errorbar(
 
 fit_label = (
     rf'Fit: $\beta_c = {a_c:.3e}(1/V) + {b_c:.6f}$' '\n'
-    rf'$R^2 = {r2_c:.3f},\ \chi^2 = {chi2_c:.2f}$'
+    rf'$R^2 = {r2_c:.3f},\ \chi^2_{{\mathrm{{red}}}} = {chi2red_c:.2f}$'
 )
 
 xfit = np.linspace(
@@ -424,7 +425,7 @@ plt.plot(
     xfit,
     peak_model(xfit, a_p, b_p, c_p),
     linestyle='-',
-    label=rf'$R^2={r2_p:.3f},\ \chi^2={chi2_p:.2f}$'
+    label=rf'$R^2={r2_p:.3f},\ \chi^2_{{\mathrm{{red}}}}={chi2red_p:.2f}$'
 )
 
 plt.xlabel('V', fontsize=32)

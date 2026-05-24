@@ -45,14 +45,14 @@ extern std::mt19937 rng;
 // constexpr int measurment_sweeps=100000;  
 // constexpr int maxlag=800;
 
-constexpr int Spatial_Size = 3;
+constexpr int Spatial_Size = 11;
 constexpr int Temporal_Size = Spatial_Size;
 constexpr int CONFIG = 1;
 
 // // Beta
 constexpr double dbeta= 0.00005;
 //constexpr double beta_min=0.4390;
-constexpr double beta_min=0.431;
+constexpr double beta_min=0.4406;
 
 // // Measurments
 constexpr int thermal_sweeps=1000000;
@@ -211,9 +211,9 @@ double update_metropolis_multicanonical(Link_array &link, std::mt19937 &rng_loca
 // Multicanonical Weights Getting
 constexpr double min_bin = 0.45;
 constexpr double max_bin = 0.95;
-constexpr int n_bins = 60;
+constexpr int n_bins = 30;
 constexpr double bin_size = (max_bin - min_bin) / n_bins;
-constexpr double tolerance = 1e-6;
+constexpr double tolerance = 1e-4;
 void mark_bin_visited(int idx,std::array<double, n_bins>& weight_function, std::array<int, n_bins>& reference_histogram, double constant);
 void all_bins_visited(std::array<double, n_bins>& reference_histogram, double& constant);
 void write_lists_to_file(const std::array<double,n_bins>& list_1, const std::array<double,n_bins>& list_2);
