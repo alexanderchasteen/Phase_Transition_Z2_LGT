@@ -114,7 +114,7 @@ int main() {
                 }
             }
         static std::mt19937 swap_rng(std::random_device{}());
-        if (j % 2 == 0) {
+        if (j % 10 == 5) {
             for (int i = 0; i < CONFIG - 1; i += 2) {
                 double delta = N_plaq * (beta_array[i] - beta_array[i + 1]) *
                     (avg_plaq_array[i + 1].value - avg_plaq_array[i].value);
@@ -126,7 +126,7 @@ int main() {
                 }
             }
         }
-        if (j % 2 == 1) {
+        if (j % 10 == 0) {
             for (int i = 1; i < CONFIG - 1; i += 2) {
                 double delta = N_plaq * (beta_array[i] - beta_array[i + 1]) *
                     (avg_plaq_array[i + 1].value - avg_plaq_array[i].value);
@@ -181,25 +181,25 @@ int main() {
 
 
 // ---------------------- Autocorrelation ----------------------
-    #pragma omp parallel for
-    for (int i = 0; i < CONFIG; i++) {
-        std::array<double, maxlag> rho;
-        int tid = omp_get_thread_num();
-        std::array<double, autocorrelation_sweeps> autocorrelation_array;
-        for (int j = 0; j < autocorrelation_sweeps; j++) {
-            double beta = beta_array[i];
-            autocorrelation_array[j] = update_metropolis_multicanonical(links_at_coupling[i], rng_threads[tid], beta, current_avg_plaq[i]);
-        }
+    // #pragma omp parallel for
+    // for (int i = 0; i < CONFIG; i++) {
+    //     std::array<double, maxlag> rho;
+    //     int tid = omp_get_thread_num();
+    //     std::array<double, autocorrelation_sweeps> autocorrelation_array;
+    //     for (int j = 0; j < autocorrelation_sweeps; j++) {
+    //         double beta = beta_array[i];
+    //         autocorrelation_array[j] = update_metropolis_multicanonical(links_at_coupling[i], rng_threads[tid], beta, current_avg_plaq[i]);
+    //     }
 
-        rho = autocorr(autocorrelation_array);
-        double taucomp = tau_int(rho);
-        if (taucomp < 1.0) taucomp = 1.0;
-        IAT_array[i] = std::ceil(taucomp);
-        #pragma omp critical
-        std::cout << "Beta " << beta_array[i]
-                << " IAT " << IAT_array[i]
-                << "\n";
-    }
+    //     rho = autocorr(autocorrelation_array);
+    //     double taucomp = tau_int(rho);
+    //     if (taucomp < 1.0) taucomp = 1.0;
+    //     IAT_array[i] = std::ceil(taucomp);
+    //     #pragma omp critical
+    //     std::cout << "Beta " << beta_array[i]
+    //             << " IAT " << IAT_array[i]
+    //             << "\n";
+    // }
 
 
     // ---------------------- Measurement Sweeps ----------------------
@@ -210,15 +210,15 @@ int main() {
             #pragma omp for
             for (int i = 0; i < CONFIG; i++) {
                 double beta = beta_array[i];
-                for (int k = 0; k<IAT_array[i]; k++){
-                        avg_plaq_array[i].value = update_metropolis_multicanonical(links_at_coupling[i], rng_threads[tid], beta, current_avg_plaq[i]);
-                    }         
+                // for (int k = 0; k<IAT_array[i]; k++){
+                avg_plaq_array[i].value = update_metropolis_multicanonical(links_at_coupling[i], rng_threads[tid], beta, current_avg_plaq[i]);
+                    // }         
                 }
         }
 
         static std::mt19937 swap_rng(std::random_device{}());
 
-        if (j % 2 == 0) {
+        if (j % 10 == 5) {
             for (int i = 0; i < CONFIG - 1; i += 2) {
                 double delta =
                     N_plaq * (beta_array[i] - beta_array[i + 1]) *
@@ -231,7 +231,7 @@ int main() {
             }
         }
 
-        if (j % 2 == 1) {
+        if (j % 10 == 0) {
             for (int i = 1; i < CONFIG - 1; i += 2) {
                 double delta =
                     N_plaq * (beta_array[i] - beta_array[i + 1]) *

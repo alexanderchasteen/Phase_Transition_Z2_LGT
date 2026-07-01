@@ -49,7 +49,7 @@ r2 = r2_score(beta_min_data, y_fit)
 # 5. Output Results
 print("-" * 40)
 print(f"FIT RESULTS (Extrapolation to 1/V -> 0)")
-print(f"Infinite Vol Beta_c: {fit_intercept:.6f} +/- {perr_corrected[1]:.6f}")
+print(f"Infinite Vol Beta_c: {fit_intercept} +/- {perr_corrected[1]:.6f}")
 print(f"Scaling Slope (a):   {fit_slope:.6f} +/- {perr_corrected[0]:.6f}")
 print("-" * 40)
 print(f"STATISTICS")
@@ -81,7 +81,7 @@ fitA_coef = fit_slope / 10**fitA_exp if fit_slope != 0 else 0
 
 fit_label = (
     rf'Fit: $\beta_c = {fitA_coef:.3f} \times 10^{{{fitA_exp}}} (1/|\Lambda|) + {fit_intercept:.6f}$' '\n'
-    rf'$R^2 = {r2:.3f},\ \chi^2 = {chi_square:.2f}$'
+    rf'$R^2 = {r2:.3f},\ \chi^2_{{\mathrm{{red}}}} ={reduced_chi_square:.4f}$'
 )
 
 x_range = np.linspace(0, np.max(inverse_volume) * 1.1, 100)

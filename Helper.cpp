@@ -291,7 +291,8 @@ std::array<double,maxlag> autocorr(const std::array<double,autocorrelation_sweep
 double tau_int(const std::array<double,maxlag>& rho) {
     double tau = 1;
     for (int t = 1; t < maxlag; t++) {
-     tau += 2*  rho[t];
+        if (rho[t] < 0.05) break; 
+        tau += rho[t];
     }
     return tau;
 }
